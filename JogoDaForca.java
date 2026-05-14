@@ -16,7 +16,6 @@ public class JogoDaForca extends Jogo {
     private ArrayList<String> letrasCorretas = new ArrayList<>(); // usada para printar ao final do jogo
     private ArrayList<String> letrasJogadas = new ArrayList<>(); // usada para printar ao final do jogo
     private String[] letrasAdvinhadas; // usada para printar o jogo (___A_)
-    private boolean resultado; // usada para retornar se pode ou não jogar outra tentativa - main chama
     private int tentativas; // usada para controlar tentativas (caracteres da palavra + 4)
 
     // classe recebe a palavra e dica
@@ -24,11 +23,13 @@ public class JogoDaForca extends Jogo {
     public JogoDaForca(String palavraMisteriosa, String dica) {
         this.palavraMisteriosa = palavraMisteriosa;
         this.dica = dica;
+        this.tentativas = 3; //padrão das jogadas, melhor de três
         this.letrasAdvinhadas = new String[this.letrasPalavraMist.size()]; // caracteres palavra + 4
         Arrays.fill(this.letrasAdvinhadas, "_"); // usado para definir indices com "_" por padrão
 
     }
 
+    // IMPLEMENTAR PERDA DE TENTIVAS SOMENTE AO ERRAR A LETRA - COLOCAR POR PRIMEIRO.
     // analisa a letra e inclui nas listas (erradas, corretas) e nas jogadas.
     // se for correta insere na lista de advinhadas
     // main analisa se tem tentativas, antes de chamar TENTATIVA, se -1 = 0, não roda.
@@ -37,17 +38,19 @@ public class JogoDaForca extends Jogo {
         boolean resultadoVerificaLetra = this.verificarLetra(letra);
         // se encontrar a letra na palavra
         // advinhadas, corretas e jogadas
-        if (resultadoVerificaLetra){
-            for (int i = 0; i < this.letrasPalavraMist.size();i++){
+        if (resultadoVerificaLetra) {
+            for (int i = 0; i < this.letrasPalavraMist.size(); i++) {
                 String letraFor = this.letrasPalavraMist.get(i);
-                if (letraFor.equals(letra)){
+                if (letraFor.equals(letra)) {
                     this.letrasAdvinhadas[i] = letraFor;
                 }
             }
             this.letrasCorretas.add(letra);
             this.letrasJogadas.add(letra);
             return true;
-        }else{
+        } else {
+            // se não encontrar a letra na palavra
+            // erradas e jogadas
             this.letrasErradas.add(letra);
             this.letrasJogadas.add(letra);
             return false;
@@ -56,36 +59,52 @@ public class JogoDaForca extends Jogo {
 
     // valida se a letra informada pelo usuario esta dentro da palavra
     private boolean verificarLetra(String letra) {
-        for (int i = 0; i < this.letrasPalavraMist.size(); i++) {
-            String letraFor = this.letrasPalavraMist.get(i);
+        for (String letraFor : this.letrasPalavraMist) {
             if (letraFor.equals(letra)) {
                 return true; // letra encontrada
-            } else {
-                return false;
             }
         }
+        return false;
     }
 
     // verifica se palpite do usuario sobre a palavra é true ou false
     // validar pelo main, se retornar true vai direto para a tela final
     public boolean palpitePalavra(String palavra) {
-
-        if (this.palavraMisteriosa == palavra) {
-            this.resultado = true;
+        boolean resultado; // usada para retornar se pode ou não jogar outra tentativa - main chama
+        if (this.palavraMisteriosa.equals(palavra)) {
+            resultado = true;
         } else {
-            this.resultado = false;
+            resultado = false;
         }
-        return this.resultado;
+        return resultado;
     }
 
     // verifica se tem tentativas disponíveis
     // chamada no main, ao finalizar cada tentativa, ele vai validar se vai deixar jogar uma proxima.
     private boolean verificadorTentativas() {
-        if (this.tentativas - 1 == 0) {
-            return true;
-        } else {
-            return false;
+        return this.tentativas - 1 == 0;
+    }
+
+    //chamada no main para verificar se todas as palavras foram advinhadas
+    private boolean verificarVitoria() {
+        for (int i = 0; i < this.letrasAdvinhadas.length; i++) {
+            String letraFor = this.letrasAdvinhadas[i];
+            if (letraFor.equals("_")) {
+                return false;
+            }
         }
+        return true;
+    }
+
+    // valida se o usuario ja tentou essa letra - chamado no main
+    private boolean verificarAdvinhadas(String letra){
+        for (int i = 0; i < this.letrasAdvinhadas.length; i++) {
+            String letraFor = this.letrasAdvinhadas[i];
+            if (letraFor.equals(letra)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
