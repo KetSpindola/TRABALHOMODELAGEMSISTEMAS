@@ -1,7 +1,13 @@
-package JogoDaForca;
+package Trabalho;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+//OBSERVAÇÕES:
+//VERIFICAR SOBRE ENTRADAS SEREM TODAS MAIUSCULAS
+
+
+
 
 public class JogoDaForca extends Jogo {
 
@@ -12,7 +18,7 @@ public class JogoDaForca extends Jogo {
     // verificar divisão da palavra em caracteres -----------
     private ArrayList<String> letrasPalavraMist;
 
-    private final ArrayList<String> letrasErradas = new ArrayList<>(); // usada para printar ao final do jogo
+    private ArrayList<String> letrasErradas = new ArrayList<>(); // usada para printar ao final do jogo
     private ArrayList<String> letrasCorretas = new ArrayList<>(); // usada para printar ao final do jogo
     private ArrayList<String> letrasJogadas = new ArrayList<>(); // usada para printar ao final do jogo
     private String[] letrasAdvinhadas; // usada para printar o jogo (___A_)
@@ -23,18 +29,15 @@ public class JogoDaForca extends Jogo {
     public JogoDaForca(String palavraMisteriosa, String dica) {
         this.palavraMisteriosa = palavraMisteriosa;
         this.dica = dica;
-        this.tentativas = 3; //padrão das jogadas, melhor de três
         this.letrasAdvinhadas = new String[this.letrasPalavraMist.size()]; // caracteres palavra + 4
         Arrays.fill(this.letrasAdvinhadas, "_"); // usado para definir indices com "_" por padrão
 
     }
 
-    // IMPLEMENTAR PERDA DE TENTIVAS SOMENTE AO ERRAR A LETRA - COLOCAR POR PRIMEIRO.
     // analisa a letra e inclui nas listas (erradas, corretas) e nas jogadas.
     // se for correta insere na lista de advinhadas
     // main analisa se tem tentativas, antes de chamar TENTATIVA, se -1 = 0, não roda.
     public boolean tentativa(String letra) {
-        this.tentativas -= 1;
         boolean resultadoVerificaLetra = this.verificarLetra(letra);
         // se encontrar a letra na palavra
         // advinhadas, corretas e jogadas
@@ -51,6 +54,7 @@ public class JogoDaForca extends Jogo {
         } else {
             // se não encontrar a letra na palavra
             // erradas e jogadas
+            this.tentativas -= 1;
             this.letrasErradas.add(letra);
             this.letrasJogadas.add(letra);
             return false;
@@ -82,7 +86,7 @@ public class JogoDaForca extends Jogo {
     // verifica se tem tentativas disponíveis
     // chamada no main, ao finalizar cada tentativa, ele vai validar se vai deixar jogar uma proxima.
     private boolean verificadorTentativas() {
-        return this.tentativas - 1 == 0;
+        return this.tentativas == 0;
     }
 
     //chamada no main para verificar se todas as palavras foram advinhadas
@@ -97,7 +101,7 @@ public class JogoDaForca extends Jogo {
     }
 
     // valida se o usuario ja tentou essa letra - chamado no main
-    private boolean verificarAdvinhadas(String letra){
+    public boolean verificarAdvinhadas(String letra){
         for (int i = 0; i < this.letrasAdvinhadas.length; i++) {
             String letraFor = this.letrasAdvinhadas[i];
             if (letraFor.equals(letra)) {
