@@ -33,7 +33,10 @@ public class JogoDaForca extends Jogo {
         this.palavraMisteriosa = palavraMisteriosa;
         this.dica = dica;
 
-        //DIVIDIR PALAVRA - letrasPalavramist
+        this.letrasPalavraMist = new ArrayList<>();
+        for (char letra : palavraMisteriosa.toCharArray()) {
+            letrasPalavraMist.add(String.valueOf(letra));
+        }
 
         this.letrasAdvinhadas = new String[this.letrasPalavraMist.size()]; // criando vetor de visualização no tamanho da palavra
         Arrays.fill(this.letrasAdvinhadas, "_"); // usado para definir indices do vetor de visualização com "_" por padrão
@@ -88,6 +91,7 @@ public class JogoDaForca extends Jogo {
             // se não encontrar a letra na palavra
             // erradas e jogadas
             this.tentativas -= 1;
+            this.tentativasErradas += 1;
             this.letrasErradas.add(letra);
             this.letrasJogadas.add(letra);
             return false; // LETRA INCORRETA
@@ -99,13 +103,7 @@ public class JogoDaForca extends Jogo {
     // validar pelo main, se retornar true vai direto para a tela final
     public boolean palpitePalavra(String entrada) {
         String palavra = maiuscula(entrada); // definindo como maiscula
-        boolean resultado;
-        if (this.palavraMisteriosa.equals(palavra)) {
-            resultado = true;
-        } else {
-            resultado = false;
-        }
-        return resultado;
+        return this.palavraMisteriosa.equals(palavra);
     }
 
     // verifica se tem tentativas disponíveis
@@ -131,6 +129,7 @@ public class JogoDaForca extends Jogo {
         System.out.println("             JOGO DA FORCA");
         System.out.println("========================================");
 
+        System.out.println("DICA: " + this.dica);
         System.out.println("Tentativas restantes: " + this.tentativas);
 
         System.out.println("Letras ja jogadas: ");
@@ -151,14 +150,14 @@ public class JogoDaForca extends Jogo {
 
     private void lerLista(String[] lista){
         for (int i = 0; i < lista.length; i++){
-            System.out.print("" + lista[i]);
+            System.out.print(lista[i] + "");
         }
     }
 
 
     private void lerArray(ArrayList array){
         for (int i = 0; i < array.size(); i++){
-            System.out.print("" + array.get(i));
+            System.out.print(array.get(i) + "");
         }
     }
 }

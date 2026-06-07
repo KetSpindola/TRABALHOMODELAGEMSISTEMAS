@@ -6,9 +6,6 @@ public class Main {
 
     static Scanner scan = new Scanner(System.in);
 
-    public static void maiuscula(String entrada) {
-    }
-
     public static void cabecalhoInicial() {
         System.out.println("                              Olá! Seja bem vindo ao meu código!");
         System.out.println("------------------------------------------------------------------------------------------------|");
@@ -43,15 +40,11 @@ public class Main {
 
     public static void main(String[] args) {
         cabecalhoInicial();
-        String teste = "teste";
-        String teste1 = "teste1";
-        JogoDaForca jogo = new JogoDaForca(teste, teste1);
 
         while (true) {
             switch (menuInicial()) {
                 case 0:
                     System.out.println("Você escolheu a opção 0 - Sair.");
-                    System.out.println("-------------------------------|");
                     System.out.println("Obrigada pela visita!");
                     System.out.println("Encerrando o programa...");
                     return;
@@ -66,6 +59,14 @@ public class Main {
                     System.out.println("Você escolheu a opção 1 - Jogar.");
                     System.out.println("-------------------------------|");
 
+                    GerenciadorPalavras gerencPalavr = new GerenciadorPalavras("C:/Users/ketli/Desktop/palavras_dicas.txt");
+                    String[] letras = new String[2];
+                    letras = gerencPalavr.obterPalavraAleatoria();
+
+                    JogoDaForca jogo = new JogoDaForca(letras[0], letras[1]);
+
+                    jogo.exibirEstadoJogo();
+
                     while (true) {
                         switch (menuTentativa()) {
                             case 0:
@@ -76,6 +77,7 @@ public class Main {
                                 while (true) {
                                     System.out.println("Você escolheu a opção 1 - Enviar letra.");
                                     System.out.println("---------------------------------------|");
+
                                     System.out.print("Qual letra deseja enviar? ");
                                     String letraUsu = scan.next();
 
@@ -103,11 +105,12 @@ public class Main {
                                             boolean retornoDescobertaTotal = jogo.verificarVitoria();
                                             if (retornoDescobertaTotal) {
                                                 System.out.println("Acertou todas as letras. Vitória!");
+                                                return;
                                             }
 
                                         }
 
-                                        return;
+                                        break;
                                     }
                                 }
 
@@ -124,6 +127,7 @@ public class Main {
                                 } else {
                                     System.out.println("Você errou!");
                                     //JOGO CONTINUA - COLOCAR LIMITE DE PALPITE?
+                                    return;
                                 }
                         }
                     }
