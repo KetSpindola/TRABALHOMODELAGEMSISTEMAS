@@ -1,13 +1,21 @@
 package Trabalho;
-import java.util.Scanner;
 
-public class Jogo {
+// não é instânciada diretamente, mas pode ser usada como "atributo" para gerar objetos das suas filhas
 
+//CLASSES FILHAS:
+
+// - JOGO DA FORCA
+public abstract class Jogo {
+
+    // valor atribuido em cada jogo
     protected int tentativas;
 
-    public Jogo(){
+    // construtor vazio
+    public Jogo() {
     }
-    public String maiuscula(String entrada){ // usada para todas as entradas em padrão
+
+    //padronizar entradas maiusculas
+    public String maiuscula(String entrada) { // usada para todas as entradas em padrão
         return entrada.toUpperCase();
     }
 
