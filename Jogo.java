@@ -15,4 +15,8 @@ public abstract class Jogo {
     public Jogo(String nomeJogador) {
         this.nomeJogador = nomeJogador;
     }
+
+    public String getNome(){
+        return this.nomeJogador;
+    }
 }

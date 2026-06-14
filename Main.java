@@ -152,14 +152,14 @@ public class Main {
                                         String resultado = jogo.verificarResultado();
 
                                         if (resultado.equals("VITORIA")) {
-                                            System.out.println("Parabéns, você VENCEU o jogo!");
+                                            System.out.println("Parabéns " + jogo.getNome() +", você VENCEU o jogo!");
                                             aguardarELimpar();
                                             jogo.exibirPlacarFinal(resultado); // dica, tentativas disponiveis, jogadas, acertadas, erradas, desenho forca, array
                                             aguardarELimpar();
                                             partidaAtiva = false;
                                             break;
                                         } else if (resultado.equals("DERROTA")) {
-                                            System.out.println("Desculpe, você PERDEU o jogo :/");
+                                            System.out.println("Desculpe " + jogo.getNome() + ", você PERDEU o jogo :/");
                                             aguardarELimpar();
                                             jogo.exibirPlacarFinal(resultado); // dica, tentativas disponiveis, jogadas, acertadas, erradas, desenho forca, array
                                             aguardarELimpar();
@@ -188,7 +188,7 @@ public class Main {
                                 boolean retornoPalpite = jogo.palpitePalavra(palpiteUsu);
                                 if (retornoPalpite) {
                                     System.out.println("Você acertou a palavra!");
-                                    System.out.println("Parabéns, você VENCEU o jogo!");
+                                    System.out.println("Parabéns " + jogo.getNome() +", você VENCEU o jogo!");
                                     aguardarELimpar();
                                     jogo.exibirPlacarFinal("VITORIA"); // dica, tentativas disponiveis, jogadas, acertadas, erradas, desenho forca, array
                                     aguardarELimpar();
