@@ -9,14 +9,10 @@ public abstract class Jogo {
 
     // valor atribuido em cada jogo
     protected int tentativas;
+    protected String nomeJogador;
 
     // construtor vazio
-    public Jogo() {
+    public Jogo(String nomeJogador) {
+        this.nomeJogador = nomeJogador;
     }
-
-    //padronizar entradas maiusculas
-    public String maiuscula(String entrada) { // usada para todas as entradas em padrão
-        return entrada.toUpperCase();
-    }
-
 }

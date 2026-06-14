@@ -34,12 +34,11 @@ public class Main {
                 System.out.println("        Jogo da forca - Menu de Opções");
                 System.out.println("0 - Encerrar código.");
                 System.out.println("1 - Jogar jogo.");
-                System.out.println("2 - Manual do jogo.");
                 System.out.println("-----------------------------------------------|");
                 System.out.print("Escolha uma opção: ");
                 return Integer.parseInt(scan.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Tente novamente: " + e.getMessage());
+                System.out.println("Tente novamente. " + e.getMessage());
                 aguardarELimpar();
             }
         }
@@ -58,7 +57,7 @@ public class Main {
                 System.out.print("Escolha uma opção: ");
                 return Integer.parseInt(scan.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Tente novamente: " + e.getMessage());
+                System.out.println("Tente novamente. " + e.getMessage());
                 aguardarELimpar();
             }
         }
@@ -67,7 +66,7 @@ public class Main {
     public static String validarletra() {
         while (true) {
             System.out.print("Qual letra deseja enviar: ");
-            String escolhaUsuario = scan.nextLine();
+            String escolhaUsuario = scan.nextLine().toUpperCase();
             if (escolhaUsuario.trim().length() != 1 || !Character.isLetter(escolhaUsuario.charAt(0))) { // nao possui tamanho 1 ou nao é letra
                 System.out.println("Tente novamente.");
             } else {
@@ -79,9 +78,10 @@ public class Main {
     public static void main(String[] args) {
         cabecalhoInicial(); // apresentação desenvolvimento
         aguardarELimpar();
+        String nomeJogador;
 
         // criando objeto para reutilização
-        GerenciadorPalavras gerencPalavr = new GerenciadorPalavras("C:\\Users\\ketli\\IdeaProjects\\modelagem\\src\\Trabalhorenovado\\Palavras.txt");
+        GerenciadorPalavras gerencPalavr = new GerenciadorPalavras("C:\\Users\\ketli\\IdeaProjects\\modelagem\\src\\Trabalho\\Palavras.txt");
 
         while (true) { // sair, jogar, manual
             switch (menuInicial()) {
@@ -99,11 +99,14 @@ public class Main {
                     System.out.println("---------------------------------------|");
 
                     // pegando PALAVRA e DICA aleatório
-                    String[] letras = new String[2]; //
-                    letras = gerencPalavr.obterPalavraAleatoria();
+                    String[] letras = gerencPalavr.obterPalavraAleatoria();
+
+                    System.out.print("Primeiro, digite o seu nick de Jogador: ");
+                    nomeJogador = scan.nextLine();
+                    aguardarELimpar();
 
                     // criando objeto jogo passando PALAVRA e LETRA
-                    JogoDaForca jogo = new JogoDaForca(letras[0], letras[1]);
+                    JogoDaForca jogo = new JogoDaForca(letras[0], letras[1],nomeJogador);
 
                     jogo.exibirEstadoJogo(); // dica, tentativas disponiveis, jogadas, acertadas, erradas, desenho forca, array
 
@@ -180,22 +183,19 @@ public class Main {
                                 System.out.println("Você escolheu a opção 2 - Enviar palpite.");
                                 System.out.println("----------------------------------------|");
                                 System.out.print("Qual palavra deseja enviar? ");
-                                String palpiteUsu = scan.nextLine();
+                                String palpiteUsu = scan.nextLine().toUpperCase();
 
                                 boolean retornoPalpite = jogo.palpitePalavra(palpiteUsu);
-                                while (true) {
-                                    if (retornoPalpite) {
-                                        System.out.println("Você acertou a palavra!");
-                                        System.out.println("Parabéns, você VENCEU o jogo!");
-                                        aguardarELimpar();
-                                        jogo.exibirPlacarFinal("VITORIA"); // dica, tentativas disponiveis, jogadas, acertadas, erradas, desenho forca, array
-                                        aguardarELimpar();
-                                        partidaAtiva = false; // sai do loop
-                                        break;
-                                    } else {
-                                        System.out.println("Palavra incorreta! Tente novamente na proxima.");
-                                        aguardarELimpar();
-                                    }
+                                if (retornoPalpite) {
+                                    System.out.println("Você acertou a palavra!");
+                                    System.out.println("Parabéns, você VENCEU o jogo!");
+                                    aguardarELimpar();
+                                    jogo.exibirPlacarFinal("VITORIA"); // dica, tentativas disponiveis, jogadas, acertadas, erradas, desenho forca, array
+                                    aguardarELimpar();
+                                    partidaAtiva = false; // sai do loop
+                                } else {
+                                    System.out.println("Palavra incorreta! Tente novamente na proxima.");
+                                    aguardarELimpar();
                                 }
                                 break;
                             default:
@@ -206,26 +206,6 @@ public class Main {
                     }
                     // Fim do loop da partida - volta para o menu principal
                     break;
-
-                case 2:
-                    // Manual do jogo
-                    aguardarELimpar();
-                    System.out.println("Você escolheu a opção 2 - Manual do jogo.");
-                    System.out.println("------------------------------------------------------------------|");
-                    System.out.println("OBJETIVO: Adivinhar a palavra através de letras ou palpites!");
-                    System.out.println("REGRAS:");
-                    System.out.println("- Tentativas são na mesma quantidade de letras da palavra sorteada");
-                    System.out.println("- Somente letras erradas reduzem suas tentativas");
-                    System.out.println("- Acerte todas as letras OU dê o palpite correto para ganhar");
-                    System.out.println("- Se as tentativas zerarem, você perde");
-                    System.out.println("OPCOES DURANTE O JOGO:");
-                    System.out.println("- Enviar letra: Tente adivinhar uma letra");
-                    System.out.println("- Enviar palpite: Tente adivinhar a palavra inteira");
-                    System.out.println("BOA SORTE!");
-                    System.out.println("------------------------------------------------------------------|");
-                    aguardarELimpar();
-                    break;
-
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
                     aguardarELimpar();

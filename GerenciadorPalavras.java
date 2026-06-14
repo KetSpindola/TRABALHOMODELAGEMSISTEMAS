@@ -24,17 +24,15 @@ public class GerenciadorPalavras {
 
     // usado no construtor
     private void carregarPalavras(String caminhoArquivo) {
-        try {
-            Scanner scanner = new Scanner(new File(caminhoArquivo));
+        try (Scanner scanner = new Scanner(new File(caminhoArquivo))) {
             while (scanner.hasNextLine()) { // enquanto houver proxima linha
                 String linha = scanner.nextLine();
                 if (!linha.trim().isEmpty()) { // se não estiver vazia
                     this.linhas.add(linha);
                 }
             }
-            scanner.close();
         } catch (Exception e) {
-            throw new RuntimeException("Houve uma falha ao tentar ler o arquivo\n" + e);
+            throw new RuntimeException("Houve uma falha ao tentar ler o arquivo. Altere o caminho pré definido no código MAIN.\n" + e);
         }
     }
 

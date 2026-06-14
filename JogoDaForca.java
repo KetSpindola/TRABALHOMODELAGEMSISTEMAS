@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class JogoDaForca extends Jogo {
 
     // objeto para mostrar forca - cada partida (jogo) tem o seu
-    DesenhoForca desenhoForca;
+    private DesenhoForca desenhoForca;
 
     // recebidas no construtor
     private int tentativasErradas; // usado como indice para a lista que contem os estados da forca
@@ -28,7 +28,8 @@ public class JogoDaForca extends Jogo {
 
 
     // CONSTRUTOR
-    public JogoDaForca(String palavraMisteriosa, String dica) { // palavra e dica recebida
+    public JogoDaForca(String palavraMisteriosa, String dica, String nomeJogador) {
+        super(nomeJogador);// palavra e dica recebida
         this.palavraMisteriosa = palavraMisteriosa;
         this.dica = dica;
 
@@ -62,8 +63,7 @@ public class JogoDaForca extends Jogo {
     // recebe a letra e verifica se esta na palavra
     // Esta - True
     // Não esta - False
-    public boolean tentativa(String entrada) {
-        String letra = maiuscula(entrada); // definindo como maiscula
+    public boolean tentativa(String letra) {
 
         boolean resultadoNaPalavra = this.verificarNaPalavra(letra); // verifica se a letra esta na palavra
 
@@ -93,9 +93,7 @@ public class JogoDaForca extends Jogo {
     }
 
     // usado no MAIN
-    public boolean verificarJajogada(String entrada) {
-        String letra = maiuscula(entrada); // definindo como maiuscula
-
+    public boolean verificarJajogada(String letra) {
         for (String letraFor : this.letrasJogadas) {
             if (letraFor.equals(letra)) {
                 return true; // letra ja jogada
@@ -105,15 +103,9 @@ public class JogoDaForca extends Jogo {
     }
 
     // usado no MAIN
-    public boolean palpitePalavra(String entrada) {
-        String palavra = maiuscula(entrada); // definindo como maiscula
+    public boolean palpitePalavra(String palavra) {
 
         return this.palavraMisteriosa.equals(palavra); // acertou - True
-    }
-
-    // usado no MAIN
-    public boolean verificadorTentativas() {
-        return this.tentativas == 0;
     }
 
     // usados pelo metodo EXIBIRESTADOJOGO
@@ -130,7 +122,7 @@ public class JogoDaForca extends Jogo {
         }
     }
 
-    private void lerVetor(ArrayList lista) {
+    private void lerVetor(ArrayList<String> lista) {
         if (lista.isEmpty()) { // primeiro verifica se esta vazio
             System.out.println("nenhuma");
         } else {
@@ -145,7 +137,10 @@ public class JogoDaForca extends Jogo {
     public void exibirEstadoJogo() {
         System.out.println("        J O G O   D A   F O R C A");
         System.out.println("========================================");
-        System.out.println("DICA: " + this.dica);
+        System.out.println("- JOGADOR: " + nomeJogador);
+        System.out.println("- DICA: " + this.dica);
+        System.out.println("- TAMANHO DA PALAVRA: " + letrasPalavraMist.size());
+        System.out.println("Tentativas permitidas: " + letrasPalavraMist.size());
         System.out.println("Tentativas restantes: " + this.tentativas);
         System.out.print("Letras ja jogadas: ");
         lerVetor(this.letrasJogadas);
@@ -160,6 +155,7 @@ public class JogoDaForca extends Jogo {
     //usado no main
     public void exibirPlacarFinal(String resultado) {
         System.out.println("     R E S U L T A D O   F I N A L");
+        System.out.println("JOGADOR: " + nomeJogador);
         System.out.println("========================================");
         System.out.println("Resultado: " + resultado);
         System.out.println("Palavra: " + this.palavraMisteriosa);
@@ -207,7 +203,6 @@ public class JogoDaForca extends Jogo {
         // Se nenhuma das duas = continua jogando
         return "CONTINUA";
     }
-
 }
 
 
